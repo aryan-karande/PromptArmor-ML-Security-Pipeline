@@ -1,55 +1,86 @@
-# PromptArmor: AI Prompt Security & Compute Cost Optimizer
+# 🛡️ PromptArmor — Enterprise AI Security Gateway & Compute Cost Optimizer
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-Enterprise%20UI-red)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Machine%20Learning-orange)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow%2FKeras-Neural%20Networks-ff6f00)
+![Security](https://img.shields.io/badge/Security-Zero--Trust%20LLM%20Defense-10b981)
 
-PromptArmor is an end-to-end machine learning security firewall and compute cost predictor designed to safeguard enterprise LLM applications against zero-day prompt injection attacks (jailbreaks) and unauthorized access, while predicting operational token latency and costs. 
+**PromptArmor** is a production-grade Enterprise AI Security SaaS platform and threat interception gateway designed to safeguard Large Language Model (LLM) infrastructures against zero-day adversarial prompt injection attacks, jailbreaks, and unauthorized privilege escalation while forecasting execution latency and GPU compute expenditure in real time.
 
-Built as an advanced machine learning demonstration, this project integrates foundational data preprocessing, concept learning, multi-class classification, and regularized regression pipelines into a unified interactive dashboard.
-
----
-
-## 🚀 Key Features & Pipeline Architecture
-
-The application is structured into four interactive modules representing a comprehensive machine learning workflow:
-
-### 1. Data Preprocessing & Sanitization Pipeline (Lab 1 & Lab 2)
-* **Missing Value Imputation:** Automatically handles incomplete prompt logs using median imputation for continuous features and mode imputation for categorical attributes.
-* **Categorical Encoding:** Applies One-Hot Encoding with `drop='first'` to prevent the Dummy Variable Trap.
-* **Feature Scaling:** Utilizes `StandardScaler` fitted strictly on training data partitions to prevent data leakage.
-* **Outlier Filtering:** Incorporates the **Interquartile Range (IQR) method** ($Q_1 - 1.5 \times \text{IQR}$ to $Q_3 + 1.5 \times \text{IQR}$) to isolate and remove extreme length anomalies and noise.
-
-### 2. Concept Learning & Policy Guardrails (Lab 3)
-* **Version Space Boundaries:** Implements **Find-S** and **Candidate Elimination** algorithms to track and update the Most Specific ($S$) and Most General ($G$) hypothesis spaces governing valid enterprise query rules.
-* **Noise Vulnerability Analysis:** Features an interactive noise injection toggle to demonstrate Version Space collapse under contradictory training instances.
-
-### 3. Multi-Model Threat Classification Arena (Labs 4, 5 & 6)
-* **Feature Extraction Engine:** Dynamically extracts 7 structural metrics from any input text (Override Density, Symbol Ratio, Shannon Entropy, Uppercase Burst, Prompt Length, Word Complexity, and Imperative Score).
-* **Multi-Layer Perceptron (MLP):** Implements a deep neural network architecture (`Input(shape=(7,)) -> Dense(24, ReLU) -> Dense(12, ReLU) -> Dense(3, Softmax)`) with `EarlyStopping` callbacks to classify inputs into **Safe**, **Complex Query**, or **Malicious Jailbreak**, complete with training/validation loss curves and Multiclass Confusion Matrices.
-* **Decision Tree Explainer:** Trains an entropy-based Decision Tree classifier with an adjustable pruning depth (`max_depth=3` vs. unconstrained `19`) to visualize transparent firewall decision thresholds.
-* **K-Nearest Neighbors (KNN):** Utilizes Euclidean distance metrics with an interactive $K$-slider ($K=1$ to $30$) and Cross-Validation accuracy tuning to retrieve similar historical attack vectors.
-
-### 4. Regression & Cost Forecaster (Lab 2)
-* **Regularized Regression Models:** Implements Multiple Linear Regression (OLS), Ridge (L2), and Lasso (L1) models optimized via `GridSearchCV` ($cv=5$) to predict continuous response latency (ms) and operational cost.
-* **Feature Selection:** Demonstrates Lasso regression automatically shrinking uninformative text coefficients to absolute zero.
+Built for live executive demonstration, PromptArmor operates as an intelligent firewall layer sitting between client applications and foundation model clusters, providing deep neural inspection, deterministic symbolic policy guardrails, and automated workload routing.
 
 ---
 
-## 🛠️ Tech Stack
+## 🏛️ Enterprise Architecture & Top-Level Modules
 
-* **Core Programming Language:** Python
-* **Web Framework:** Streamlit
-* **Machine Learning & Preprocessing:** Scikit-Learn, NumPy, Pandas
-* **Deep Learning:** TensorFlow / Keras
-* **Data Visualization:** Matplotlib, Seaborn
+PromptArmor is organized into five top-level operational consoles:
+
+### 1. 🚀 Live Security Sandbox (The Main Showcase)
+* **Real-Time Prompt Ingestion Terminal:** Interactive prompt submission console with quick presets for Safe Queries, Complex Technical Code, and Critical Adversarial Jailbreaks.
+* **Client Identity & Metadata Context:** Configurable client tiers (Enterprise Platinum, FinTech, HIPAA, Pro Developer), intent categories, authentication contexts, and execution privilege flags.
+* **Dynamic Warning Banners:** Live color-coded security enforcement banners (Green for Cleared Traffic, Blue for Specialized Accelerator Routing, Red for Adversarial Jailbreak Blocked).
+* **Structural Telemetry Gauges:** Instantaneous extraction of 7 numerical structural security vectors and expected latency/token cost calculations.
+* **Cryptographic Audit Receipts:** SHA-256 payload digest, transaction receipt ID, and routing telemetry.
+
+### 2. 🧠 Threat Intelligence Arena
+* **Deep Neural Classifier (Keras MLP):** Multi-Layer Perceptron architecture (`Input(7) -> Dense(24, ReLU) -> Dense(12, ReLU) -> Dense(3, Softmax)`) delivering multi-class confidence distributions (Safe vs. Complex Query vs. Malicious Jailbreak) with training convergence curves.
+* **Interpretable Decision Tree Policy Engine:** Entropy and Information Gain-based transparent firewall rule paths rendered in clean, human-readable IF-THEN logic with feature importance rankings.
+* **Nearest-Neighbor Threat Vector Store:** Euclidean vector indexing across historical adversarial prompt families with cross-validation hyperparameter tuning.
+* **Multi-Model Performance Benchmarking:** Comprehensive comparative audit matrix evaluating accuracy, inference latency, and interpretability.
+
+### 3. 🧹 Data Sanitization & Ingestion Engine
+* **Production Telemetry Buffer:** Ingestion monitoring and hygiene analysis across 1,500 enterprise prompt records.
+* **Missing Value Imputation:** Statistical imputation preserving continuous distributions (Median for latency/cost telemetry, Mode for categorical security metadata).
+* **IQR Anomaly Quarantine:** Dynamic Interquartile Range ($Q_1 - k \times \text{IQR}$ to $Q_3 + k \times \text{IQR}$) statistical filtering to isolate and quarantine anomalous telemetry spikes.
+* **Interactive Telemetry Distributions:** Distribution histograms and Pearson correlation heatmaps across structural security metrics and computational cost.
+
+### 4. 📋 Policy Guardrails Engine
+* **Symbolic Version Space Boundaries:** Tracks the Most Specific boundary ($S$, strictest acceptable whitelist) and Most General boundary ($G$, outer permissive envelope) using Candidate Elimination.
+* **Contradictory Policy Injection & Collapse:** Simulates policy contradictions to demonstrate Version Space collapse, triggering automated SecOps escalation alerts.
+* **Interactive Compliance Status Monitor:** Validates client requests against active enterprise compliance profiles (Enterprise Platinum, FinTech PCI/GLBA, Healthcare HIPAA, Developer API, Public Sandbox).
+
+### 5. 📊 Compute Cost & Latency Forecasting
+* **Regularized Regression Performance:** Comparative evaluation of Ordinary Least Squares (OLS), Ridge ($L_2$), and Lasso ($L_1$) regression models with live $R^2$, MAE, RMSE, and cross-validated $\alpha$ tuning.
+* **Lasso $L_1$ Sparsity Shrinkage:** Visual horizontal bar chart proving Lasso's ability to drive uninformative feature coefficients to exactly zero.
+* **Workload Simulator:** Interactive slider-driven forecast predicting token compute expenditures and latency for hypothetical prompt workloads at enterprise scale (e.g., 100K batch analysis).
 
 ---
 
-## 📦 Installation & Local Setup
+## 🛠️ Technology Stack
+
+* **UI & Dashboard Framework:** Streamlit (Custom enterprise dark-mode CSS: `#0b0f19` background, `#1f2937` surfaces, `#3b82f6` blue accents)
+* **Core Machine Learning:** Scikit-Learn, NumPy, Pandas
+* **Deep Learning Framework:** TensorFlow / Keras (Multi-Layer Perceptron with Categorical Cross-Entropy)
+* **Statistical Visualizations:** Matplotlib, Seaborn
+
+---
+
+## 📦 Local Setup & Deployment
 
 1. **Clone the Repository:**
    ```bash
-   git clone [https://github.com/aryan-karande/PromptArmor-ML-Security-Pipeline.git](https://github.com/aryan-karande/PromptArmor-ML-Security-Pipeline.git)
+   git clone https://github.com/aryan-karande/PromptArmor-ML-Security-Pipeline.git
    cd PromptArmor-ML-Security-Pipeline
+   ```
+
+2. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Verify Pipeline Integrity:**
+   ```bash
+   python verify_pipeline.py
+   ```
+
+4. **Launch PromptArmor Security Gateway:**
+   ```bash
+   streamlit run app.py
+   ```
+
+---
+
+## 🔒 Enterprise Compliance Standards
+
+PromptArmor is designed to adhere to zero-trust architecture principles, providing deterministic policy invariants, cryptographic audit receipts, and automated containment for enterprise LLM deployments.
