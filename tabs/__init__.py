@@ -1,25 +1,19 @@
 """
-PromptArmor — Executive Cybersecurity Presentation Tabs Package
-================================================================
-Tab 1: Live Security Sandbox (The Main Showcase)
-Tab 2: Threat Intelligence Arena
-Tab 3: Data Sanitization & Ingestion Engine
-Tab 4: Policy Guardrails Engine
-Tab 5: Compute Cost & Latency Forecasting
+PromptArmor — Presentation Tabs Package
+=======================================
+Tab 1: Live Firewall Sandbox
+Tab 2: Executive Audit & PDF Report
+Tab 3: About PromptArmor
 """
 
 from tabs import (
     tab1_sandbox,
-    tab2_threat_intel,
-    tab3_sanitization,
-    tab4_guardrails,
-    tab5_forecasting,
+    tab2_report,
+    tab3_about,
 )
 
 __all__ = [
     "tab1_sandbox",
-    "tab2_threat_intel",
-    "tab3_sanitization",
-    "tab4_guardrails",
-    "tab5_forecasting",
+    "tab2_report",
+    "tab3_about",
 ]

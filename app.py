@@ -1,12 +1,15 @@
 """
 PromptArmor — Enterprise AI Security Gateway & Compute Cost Optimizer
 ======================================================================
-Production-grade commercial AI firewall and telemetry defense platform.
+Production-grade enterprise AI firewall & LLM risk intelligence platform.
+High-end dark mode executive aesthetic: sleek #0a0a0a background, subtle grid lines,
+crisp typography, custom dark armor logo branding, and landing-page first flow.
 
 Run with:  streamlit run app.py
 """
 
 import os
+import base64
 import warnings
 import streamlit as st
 
@@ -18,300 +21,337 @@ warnings.filterwarnings("ignore")
 # ── Page Configuration ──────────────────────────────────────────────────────
 st.set_page_config(
     page_title="PromptArmor • Enterprise AI Security Gateway",
-    page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 
-# ── Custom Enterprise Dark-Mode CSS Theme ───────────────────────────────────
+# ── Load Logo Asset as Base64 ───────────────────────────────────────────────
+def get_logo_base64() -> tuple[str, str]:
+    candidates = [
+        (os.path.join(os.path.dirname(__file__), "assets", "logo_transparent.png"), "image/png"),
+        (os.path.join(os.path.dirname(__file__), "assets", "logo.png"), "image/png"),
+        (os.path.join(os.path.dirname(__file__), "assets", "logo.jpg"), "image/jpeg"),
+    ]
+    for path, mime in candidates:
+        if os.path.exists(path):
+            try:
+                with open(path, "rb") as f:
+                    return base64.b64encode(f.read()).decode("utf-8"), mime
+            except Exception:
+                pass
+    return "", "image/png"
+
+LOGO_B64, LOGO_MIME = get_logo_base64()
+
+# ── Custom High-End Dark Enterprise Cybersecurity Styling ───────────────────
 st.markdown("""
 <style>
-    /* ── Base Enterprise Dark Theme ──────────────────────────────── */
+    /* ── Hide Streamlit Default Headers, Footers & Watermark ─────── */
+    #MainMenu, header, footer, [data-testid="stToolbar"], [data-testid="stDecoration"] {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+    }
+    
+    /* ── Lift Layout & Maximize Screen Coverage ─────────────────── */
+    .block-container {
+        padding-top: 1.2rem !important;
+        padding-bottom: 2.5rem !important;
+        padding-left: 2.5rem !important;
+        padding-right: 2.5rem !important;
+        max-width: 96% !important;
+    }
+    
+    /* ── Main App Canvas (Deep Dark #0a0a0a with subtle grid) ───── */
     html, body, [class*="css"], .stApp {
-        background-color: #0b0f19 !important;
-        color: #f9fafb !important;
+        background-color: #0a0a0a !important;
+        background-image: 
+            linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px) !important;
+        background-size: 40px 40px !important;
+        color: #f8fafc !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
     
-    /* ── Typography & Headers ────────────────────────────────────── */
+    /* ── Typography & Headings ───────────────────────────────────── */
     h1, h2, h3, h4, h5, h6 {
-        color: #f9fafb !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.02em;
+        color: #ffffff !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.025em;
     }
     
     p, span, label {
-        color: #d1d5db;
+        color: #94a3b8;
     }
 
-    /* ── Top-Level Tabs ──────────────────────────────────────────── */
+    /* ── Top-Level Navigation Tabs (Dark Minimalist Architecture) ── */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 6px;
-        background-color: #111827 !important;
-        padding: 6px 10px;
+        gap: 8px;
+        background-color: #111111 !important;
+        padding: 6px 8px;
         border-radius: 12px;
-        border: 1px solid #1f2937;
+        border: 1px solid #222222;
         margin-bottom: 24px;
     }
     
     .stTabs [data-baseweb="tab"] {
-        background-color: #1f2937 !important;
-        color: #9ca3af !important;
+        background-color: transparent !important;
+        color: #94a3b8 !important;
         border-radius: 8px !important;
-        padding: 10px 18px !important;
-        font-weight: 600 !important;
-        font-size: 0.9rem !important;
+        padding: 10px 24px !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
         border: 1px solid transparent !important;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.15s ease-in-out;
     }
     
     .stTabs [data-baseweb="tab"]:hover {
-        color: #f9fafb !important;
-        background-color: #374151 !important;
+        color: #ffffff !important;
+        background-color: #1a1a1a !important;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
-        color: #ffffff !important;
-        border: 1px solid #60a5fa !important;
-        box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4) !important;
+        background: #ffffff !important;
+        color: #0a0a0a !important;
+        border: 1px solid #ffffff !important;
+        box-shadow: 0 4px 18px rgba(255, 255, 255, 0.15) !important;
     }
 
     /* ── Metric Cards & Surfaces ─────────────────────────────────── */
     div[data-testid="stMetric"] {
-        background-color: #1f2937 !important;
-        border: 1px solid #374151 !important;
-        border-radius: 10px !important;
-        padding: 14px 18px !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        background-color: #111111 !important;
+        border: 1px solid #222222 !important;
+        border-radius: 12px !important;
+        padding: 18px 22px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
     }
     
     div[data-testid="stMetricLabel"] p {
-        color: #9ca3af !important;
-        font-size: 0.8rem !important;
-        font-weight: 600 !important;
+        color: #64748b !important;
+        font-size: 0.78rem !important;
+        font-weight: 700 !important;
         text-transform: uppercase !important;
-        letter-spacing: 0.04em !important;
+        letter-spacing: 0.06em !important;
     }
     
     div[data-testid="stMetricValue"] div {
-        color: #f9fafb !important;
-        font-size: 1.5rem !important;
-        font-weight: 700 !important;
-    }
-
-    /* ── Containers, Expanders & Cards ───────────────────────────── */
-    .streamlit-expanderHeader {
-        background-color: #1f2937 !important;
-        color: #f9fafb !important;
-        border: 1px solid #374151 !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-    }
-    
-    div[data-testid="stExpander"] {
-        border: 1px solid #374151 !important;
-        border-radius: 10px !important;
-        background-color: #111827 !important;
-        margin-bottom: 12px;
+        color: #ffffff !important;
+        font-size: 1.65rem !important;
+        font-weight: 800 !important;
     }
 
     /* ── Input Fields & Selectors ────────────────────────────────── */
     textarea, input, .stSelectbox [data-baseweb="select"] {
-        background-color: #111827 !important;
-        color: #f9fafb !important;
-        border: 1px solid #374151 !important;
-        border-radius: 8px !important;
+        background-color: #111111 !important;
+        color: #f8fafc !important;
+        border: 1px solid #2a2a2a !important;
+        border-radius: 10px !important;
+        font-size: 0.95rem !important;
     }
     
     textarea:focus, input:focus {
-        border-color: #3b82f6 !important;
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25) !important;
+        border-color: #ffffff !important;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
     }
 
-    /* ── Buttons ─────────────────────────────────────────────────── */
+    /* ── Buttons (High-End White Glow & Outline) ─────────────────── */
     .stButton > button {
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-        transition: all 0.2s ease-in-out !important;
+        border-radius: 9px !important;
+        font-weight: 800 !important;
+        padding: 12px 24px !important;
+        transition: all 0.15s ease-in-out !important;
     }
     
     .stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
-        color: #ffffff !important;
-        border: none !important;
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35) !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #ffffff !important;
+        box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .stButton > button[kind="primary"] p,
+    .stButton > button[kind="primary"] span,
+    .stButton > button[kind="primary"] div {
+        color: #000000 !important;
+        font-weight: 800 !important;
     }
     
     .stButton > button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%) !important;
-        box-shadow: 0 6px 18px rgba(59, 130, 246, 0.5) !important;
+        background: #f1f5f9 !important;
+        color: #000000 !important;
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.35) !important;
         transform: translateY(-1px);
+    }
+
+    .stButton > button[kind="primary"]:hover p,
+    .stButton > button[kind="primary"]:hover span,
+    .stButton > button[kind="primary"]:hover div {
+        color: #000000 !important;
     }
     
     .stButton > button[kind="secondary"] {
-        background-color: #1f2937 !important;
-        color: #d1d5db !important;
-        border: 1px solid #374151 !important;
+        background-color: #141414 !important;
+        color: #e2e8f0 !important;
+        border: 1px solid #2a2a2a !important;
     }
     
     .stButton > button[kind="secondary"]:hover {
-        border-color: #3b82f6 !important;
+        border-color: #ffffff !important;
         color: #ffffff !important;
+        background-color: #1f1f1f !important;
     }
 
     /* ── DataFrames & Tables ─────────────────────────────────────── */
     div[data-testid="stDataFrame"] {
-        border: 1px solid #374151 !important;
-        border-radius: 8px !important;
+        border: 1px solid #222222 !important;
+        border-radius: 10px !important;
         overflow: hidden;
+        background-color: #111111 !important;
     }
 
-    /* ── Alert Overrides ─────────────────────────────────────────── */
-    .stAlert {
-        border-radius: 8px !important;
-        background-color: #1f2937 !important;
-        border: 1px solid #374151 !important;
-    }
-
-    /* ── Executive Hero Header ───────────────────────────────────── */
+    /* ── Executive Top Header ────────────────────────────────────── */
     .enterprise-header {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0b0f19 100%);
-        border: 1px solid rgba(59, 130, 246, 0.3);
+        background: #0d0d0d;
+        border: 1px solid #222222;
         border-radius: 14px;
-        padding: 22px 28px;
+        padding: 18px 28px;
         margin-bottom: 22px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
     }
     
-    .header-branding {
+    .header-left {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 18px;
     }
     
-    .header-logo {
-        background: rgba(59, 130, 246, 0.15);
-        border: 1px solid rgba(59, 130, 246, 0.4);
-        width: 52px;
-        height: 52px;
-        border-radius: 12px;
+    .header-logo-container {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        background: transparent;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.8rem;
+        overflow: hidden;
     }
     
-    .header-title-text h1 {
+    .header-logo-img {
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+        background: transparent !important;
+    }
+    
+    .header-branding h1 {
         margin: 0;
-        font-size: 1.85rem;
-        color: #f9fafb !important;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: #ffffff !important;
+        letter-spacing: -0.035em;
+        line-height: 1.1;
     }
     
-    .header-title-text p {
+    .header-branding p {
         margin: 3px 0 0 0;
-        color: #9ca3af;
+        color: #64748b;
         font-size: 0.92rem;
-    }
-    
-    .status-pill-row {
-        display: flex;
-        gap: 10px;
+        font-weight: 500;
     }
     
     .status-pill {
-        background: rgba(16, 185, 129, 0.12);
-        border: 1px solid rgba(16, 185, 129, 0.4);
-        color: #10b981;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.78rem;
+        font-size: 0.82rem;
         font-weight: 700;
+        color: #e2e8f0;
+        background: #161616;
+        border: 1px solid #2a2a2a;
+        padding: 8px 18px;
+        border-radius: 20px;
         letter-spacing: 0.04em;
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
     }
-    
+
     .status-dot {
-        width: 7px;
-        height: 7px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         background-color: #10b981;
-        animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-        0% { opacity: 0.4; }
-        50% { opacity: 1; }
-        100% { opacity: 0.4; }
+        box-shadow: 0 0 8px #10b981;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# ── Executive Hero Header ───────────────────────────────────────────────────
-st.markdown("""
+# ── Executive Top Header with Armor Logo ────────────────────────────────────
+logo_html = f'<div class="header-logo-container"><img src="data:{LOGO_MIME};base64,{LOGO_B64}" class="header-logo-img" alt="PromptArmor Logo" /></div>' if LOGO_B64 else ''
+
+st.markdown(f"""
 <div class="enterprise-header">
-    <div class="header-branding">
-        <div class="header-logo">🛡️</div>
-        <div class="header-title-text">
-            <h1>PromptArmor <span style="font-size:0.75rem; font-weight:700; color:#3b82f6; background:rgba(59,130,246,0.15); padding:2px 8px; border-radius:10px; border:1px solid rgba(59,130,246,0.3); vertical-align:middle;">ENTERPRISE SAAS</span></h1>
-            <p>AI Security Gateway & Compute Optimization Platform • Executive Security Operations Center</p>
+    <div class="header-left">
+        {logo_html}
+        <div class="header-branding">
+            <h1>PromptArmor</h1>
+            <p>Enterprise AI Security Gateway & Continuous LLM Risk Intelligence</p>
         </div>
     </div>
-    <div class="status-pill-row">
-        <div class="status-pill">
-            <span class="status-dot"></span> GATEWAY: ONLINE
-        </div>
-        <div class="status-pill" style="background:rgba(59,130,246,0.12); border-color:rgba(59,130,246,0.4); color:#60a5fa;">
-            <span class="status-dot" style="background:#60a5fa;"></span> THREAT SHIELD: ACTIVE
-        </div>
+    <div class="status-pill">
+        <span class="status-dot"></span>
+        System Status: Active | V-2.4
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# ── Top-Level Tab Navigation ────────────────────────────────────────────────
+# ── Navigation State Management ─────────────────────────────────────────────
+# Default active view is View 1: Executive Landing & About Page
+if "page" not in st.session_state:
+    st.session_state["page"] = "landing"
+
+def nav_to_sandbox():
+    st.session_state["page"] = "sandbox"
+    st.rerun()
+
+def nav_to_landing():
+    st.session_state["page"] = "landing"
+    st.rerun()
+
+# ── Module Imports ──────────────────────────────────────────────────────────
+from tabs.tab3_about import render as render_about
 from tabs.tab1_sandbox import render as render_sandbox
-from tabs.tab2_threat_intel import render as render_threat_intel
-from tabs.tab3_sanitization import render as render_sanitization
-from tabs.tab4_guardrails import render as render_guardrails
-from tabs.tab5_forecasting import render as render_forecasting
+from tabs.tab2_report import render as render_report
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "🚀 Live Security Sandbox",
-    "🧠 Threat Intelligence Arena",
-    "🧹 Data Sanitization & Ingestion Engine",
-    "📋 Policy Guardrails Engine",
-    "📊 Compute Cost & Latency Forecasting",
-])
+# ── Stateful Routing ────────────────────────────────────────────────────────
+if st.session_state["page"] == "landing":
+    # View 1: Executive Landing & About Page
+    render_about(on_launch_callback=nav_to_sandbox)
+else:
+    # View 2: Live Security Firewall Sandbox & PDF Report Generator
+    col_back, col_spacer = st.columns([2.5, 7.5])
+    with col_back:
+        if st.button("← Back to Home / Overview", key="btn_back_home", type="secondary", use_container_width=True):
+            nav_to_landing()
+            
+    st.markdown("<div style='margin-bottom: 12px;'></div>", unsafe_allow_html=True)
+    
+    tab_sandbox, tab_audit = st.tabs([
+        "Live Firewall Sandbox",
+        "Executive Audit & PDF Report",
+    ])
+    
+    with tab_sandbox:
+        render_sandbox()
+        
+    with tab_audit:
+        render_report()
 
-with tab1:
-    render_sandbox()
-
-with tab2:
-    render_threat_intel()
-
-with tab3:
-    render_sanitization()
-
-with tab4:
-    render_guardrails()
-
-with tab5:
-    render_forecasting()
-
-# ── Enterprise Footer ───────────────────────────────────────────────────────
+# ── Minimalist Clean Footer ─────────────────────────────────────────────────
 st.markdown("---")
 st.markdown(
-    "<center style='color:#6b7280; font-size:0.82rem; letter-spacing:0.02em; padding: 12px 0;'>"
-    "PromptArmor Enterprise AI Security Gateway v2.4.0 • Zero-Trust LLM Defense Architecture • "
-    "SOC-2 Type II &amp; ISO/IEC 27001 Compliant Invariant Engine"
+    "<center style='color:#475569; font-size:0.82rem; letter-spacing:0.04em; padding: 18px 0;'>"
+    "PromptArmor Enterprise Defense • Continuous Risk Intelligence • SOC-2 Type II &amp; ISO/IEC 27001 Certified"
     "</center>",
     unsafe_allow_html=True,
 )
